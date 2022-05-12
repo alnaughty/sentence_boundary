@@ -3,13 +3,9 @@ class SentenceBoundary {
     List<List<String>> _ff = [];
     List<String> tokenized = fulltext.split(' ');
     List<String> _container = [];
-
     if (fulltext.contains(RegExp(r"[^\w\s]"))) {
       for (int x = 0; x < tokenized.length; x++) {
         final String token = tokenized[x];
-        // print("$token : TENSE: ${lemmatizer.lemma(
-        //   token,
-        // )}");
         if (isTheEnd(token)) {
           _container.add(token);
           List<String> _subCont = List.from(_container);
