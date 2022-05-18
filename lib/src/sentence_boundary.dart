@@ -1,4 +1,5 @@
 class SentenceBoundary {
+  final RegExp _regExp = RegExp(r"[^\w\s]");
   List<List<String>> detect(String fulltext) {
     List<List<String>> _ff = [];
     List<String> tokenized = fulltext.split(' ');
@@ -29,8 +30,27 @@ class SentenceBoundary {
       }
       _ff.add(__container);
     }
+    List<List<String>> _clean = [];
+    for (List<String> toCheck in _ff) {
+      print(toCheck);
+      List<String> _checked = [];
+      for (String ff in toCheck) {
+        print(ff);
+        String fin = ff;
+        if (ff.contains(_regExp)) {
+          final String matchedRegExp = ff[_regExp.firstMatch(ff)!.end - 1];
+          print("REGEXP MATCH : $matchedRegExp");
+          ff = ff.replaceAll(_regExp, "(!)$matchedRegExp");
+          List<String> fee = ff.split("(!)");
+          _checked += fee;
+        } else {
+          _checked.add(ff);
+        }
+      }
+      _clean.add(_checked);
+    }
 
-    return _ff;
+    return _clean;
   }
 
   bool isTheEnd(String text) {
